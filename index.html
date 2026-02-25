@@ -105,14 +105,40 @@
   @media (max-width: 720px) {
     .pillars, .scenario-grid, .mc-grid, .addons-grid, .phase-grid { grid-template-columns: 1fr; }
   }
+
+  .download-bar {
+    text-align: center;
+    margin-bottom: 28px;
+  }
+  .download-btn {
+    display: inline-block;
+    background: #1a1a2e;
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 13px 28px;
+    border-radius: 10px;
+    letter-spacing: 0.02em;
+    transition: background 0.2s;
+  }
+  .download-btn:hover {
+    background: #2563eb;
+  }
 </style>
 </head>
 <body>
 <div class="container">
 
+<div class="download-bar">
+  <a class="download-btn" href="physio_voice_quote_client.pdf" download="Physio_Voice_ROI_Quote.pdf">
+    ⬇ Download PDF Quote
+  </a>
+</div>
+
   <div class="header">
     <h1>Physio Voice — Investment ROI Summary</h1>
-    <p>Per-clinic pricing &nbsp;·&nbsp; Ontario &nbsp;·&nbsp; Based on 1 receptionist · ~900 appointments/month</p>
+    <p>Per-clinic pricing &nbsp;·&nbsp; Ontario &nbsp;·&nbsp; ~1,000 appointments/month per clinic &nbsp;·&nbsp; 2,000–3,000 total across all clinics</p>
   </div>
 
   <!-- Value Pillars -->
@@ -366,6 +392,12 @@
     <h2>The Real Value</h2>
     <p>This isn't about replacing your staff — it's about stopping the machine from eating their day. Physio Voice takes the booking queue off their plate so your team can do the work that actually requires a human. The after-hours and no-show numbers are conservative — every clinic that has deployed a system like this has seen faster payback than the model predicts. The implementation fee is recovered within your first year regardless of which scenario you choose.</p>
   </div>
+
+  <div class="download-bar">
+  <a class="download-btn" href="physio_voice_quote_client.pdf" download="Physio_Voice_ROI_Quote.pdf">
+    ⬇ Download PDF Quote
+  </a>
+</div>
 
   <p class="footnote">Estimates based on Ontario market rates and physiotherapy industry benchmarks. Figures are per clinic. Multi-clinic pricing available on request.</p>
 
