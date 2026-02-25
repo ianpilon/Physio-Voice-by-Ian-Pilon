@@ -3,202 +3,107 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Physio Voice — ROI Summary</title>
+<title>Physio Voice — Investment ROI Summary</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body {
-    font-family: 'Segoe UI', system-ui, sans-serif;
-    background: #f4f6f9;
-    padding: 40px 24px;
-    color: #1a1a2e;
-  }
-  .container { max-width: 900px; margin: 0 auto; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: #f4f6f9; padding: 40px 24px; color: #1a1a2e; }
+  .container { max-width: 960px; margin: 0 auto; }
 
   .header { text-align: center; margin-bottom: 36px; }
   .header h1 { font-size: 28px; font-weight: 700; color: #1a1a2e; margin-bottom: 8px; }
   .header p { font-size: 15px; color: #666; }
 
-  .card {
-    background: white;
-    border-radius: 16px;
-    padding: 28px 32px;
-    margin-bottom: 24px;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
-  }
-  .card h2 {
-    font-size: 14px;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: #888;
-    margin-bottom: 20px;
-    font-weight: 600;
-  }
+  .card { background: white; border-radius: 16px; padding: 28px 32px; margin-bottom: 20px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+  .card h2 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.08em; color: #888; margin-bottom: 18px; font-weight: 600; }
 
-  table { width: 100%; border-collapse: collapse; font-size: 15px; }
-  th {
-    text-align: left;
-    padding: 10px 14px;
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: #999;
-    border-bottom: 2px solid #f0f0f0;
-  }
-  td {
-    padding: 13px 14px;
-    border-bottom: 1px solid #f5f5f5;
-    color: #333;
-    vertical-align: top;
-  }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th { text-align: left; padding: 9px 12px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: #999; border-bottom: 2px solid #f0f0f0; }
+  td { padding: 12px 12px; border-bottom: 1px solid #f5f5f5; color: #333; vertical-align: top; }
   tr:last-child td { border-bottom: none; }
+  .total-row td { background: #f9f9f9; font-weight: 700; border-top: 2px solid #e8e8e8; border-bottom: none; }
+
   .red   { color: #e84545; font-weight: 600; }
   .green { color: #27ae60; font-weight: 600; }
   .blue  { color: #2563eb; font-weight: 600; }
-  .muted { color: #999; font-size: 13px; }
-  .total-row td {
-    background: #f9f9f9;
-    font-weight: 700;
-    font-size: 15px;
-    border-top: 2px solid #e8e8e8;
-    border-bottom: none;
-  }
+  .muted { color: #999; font-size: 12px; }
+  .bold  { font-weight: 600; color: #1a1a2e; }
 
-  .notice {
-    background: #fffbeb;
-    border: 1.5px solid #fcd34d;
-    border-radius: 12px;
-    padding: 16px 20px;
-    margin-bottom: 24px;
-    font-size: 14px;
-    color: #92400e;
-    line-height: 1.6;
-  }
-  .notice strong { color: #78350f; }
+  /* Value pillars */
+  .pillars { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 20px; }
+  .pillar { background: white; border-radius: 14px; padding: 20px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); border-top: 3px solid #e5e7eb; }
+  .pillar.p1 { border-top-color: #6366f1; }
+  .pillar.p2 { border-top-color: #f59e0b; }
+  .pillar.p3 { border-top-color: #2563eb; }
+  .pillar.p4 { border-top-color: #059669; }
+  .pillar-icon { font-size: 20px; margin-bottom: 8px; }
+  .pillar-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.07em; color: #999; font-weight: 600; margin-bottom: 6px; }
+  .pillar-value { font-size: 22px; font-weight: 800; color: #1a1a2e; line-height: 1; margin-bottom: 4px; }
+  .pillar-sub { font-size: 11px; color: #888; line-height: 1.4; }
 
-  .scenario-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 16px;
-    margin-bottom: 24px;
-  }
+  /* Scenarios */
+  .scenario-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 20px; }
+  .scenario-card { background: white; border-radius: 14px; padding: 22px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); border-top: 4px solid #e5e7eb; }
+  .scenario-card.sa { border-top-color: #6366f1; }
+  .scenario-card.sb { border-top-color: #2563eb; }
+  .scenario-card.sc { border-top-color: #059669; }
+  .scen-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 700; margin-bottom: 3px; }
+  .sa .scen-label { color: #6366f1; }
+  .sb .scen-label { color: #2563eb; }
+  .sc .scen-label { color: #059669; }
+  .scen-title { font-size: 15px; font-weight: 700; color: #1a1a2e; margin-bottom: 12px; }
+  .scen-price { font-size: 32px; font-weight: 800; line-height: 1; margin-bottom: 2px; }
+  .sa .scen-price { color: #6366f1; }
+  .sb .scen-price { color: #2563eb; }
+  .sc .scen-price { color: #059669; }
+  .scen-sub { font-size: 11px; color: #999; margin-bottom: 12px; }
+  .scen-includes { margin-bottom: 12px; }
+  .scen-includes div { font-size: 11px; color: #555; padding: 2px 0; }
+  .scen-includes div::before { content: "✓ "; color: #27ae60; font-weight: 700; }
+  .scen-divider { border: none; border-top: 1px solid #f0f0f0; margin: 10px 0; }
+  .scen-row { display: flex; justify-content: space-between; font-size: 12px; color: #666; margin-bottom: 6px; }
+  .scen-row .val { font-weight: 700; color: #1a1a2e; }
+  .scen-row .val.pos { color: #27ae60; }
+  .badge { display: inline-block; font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 20px; margin-top: 10px; text-transform: uppercase; letter-spacing: 0.04em; }
+  .badge-a { background: #ede9fe; color: #6366f1; }
+  .badge-b { background: #eff6ff; color: #2563eb; }
+  .badge-c { background: #ecfdf5; color: #059669; }
 
-  .scenario-card {
-    background: white;
-    border-radius: 16px;
-    padding: 24px;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
-    border-top: 4px solid #e5e7eb;
-  }
-  .scenario-card.conservative { border-top-color: #6366f1; }
-  .scenario-card.balanced     { border-top-color: #2563eb; }
-  .scenario-card.full         { border-top-color: #059669; }
+  /* Add-ons */
+  .addons-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 20px; }
+  .addon-card { background: white; border-radius: 14px; padding: 22px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+  .addon-card h3 { font-size: 13px; font-weight: 700; color: #1a1a2e; margin-bottom: 4px; }
+  .addon-price { font-size: 22px; font-weight: 800; color: #2563eb; margin: 8px 0 4px; }
+  .addon-sub { font-size: 11px; color: #999; margin-bottom: 10px; }
+  .addon-includes div { font-size: 12px; color: #555; padding: 2px 0; }
+  .addon-includes div::before { content: "✓ "; color: #27ae60; font-weight: 700; }
 
-  .scenario-label {
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    font-weight: 700;
-    margin-bottom: 4px;
-  }
-  .conservative .scenario-label { color: #6366f1; }
-  .balanced .scenario-label     { color: #2563eb; }
-  .full .scenario-label         { color: #059669; }
+  /* Multi-clinic */
+  .multiclinic { background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 16px; padding: 28px 32px; margin-bottom: 20px; color: white; }
+  .multiclinic h2 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.08em; color: rgba(255,255,255,0.4); margin-bottom: 16px; font-weight: 600; }
+  .mc-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+  .mc-item { text-align: center; }
+  .mc-label { font-size: 11px; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
+  .mc-value { font-size: 24px; font-weight: 800; color: #4ade80; line-height: 1; margin-bottom: 4px; }
+  .mc-sub { font-size: 11px; color: rgba(255,255,255,0.3); }
+  .mc-note { margin-top: 18px; font-size: 12px; color: rgba(255,255,255,0.4); border-top: 1px solid rgba(255,255,255,0.1); padding-top: 14px; }
 
-  .scenario-title { font-size: 17px; font-weight: 700; color: #1a1a2e; margin-bottom: 16px; }
-
-  .scenario-price { font-size: 36px; font-weight: 800; line-height: 1; margin-bottom: 2px; }
-  .conservative .scenario-price { color: #6366f1; }
-  .balanced .scenario-price     { color: #2563eb; }
-  .full .scenario-price         { color: #059669; }
-
-  .scenario-sub { font-size: 12px; color: #999; margin-bottom: 16px; }
-
-  .scenario-divider { border: none; border-top: 1px solid #f0f0f0; margin: 14px 0; }
-
-  .scenario-row {
-    display: flex;
-    justify-content: space-between;
-    font-size: 13px;
-    margin-bottom: 8px;
-    color: #555;
-  }
-  .scenario-row span:last-child { font-weight: 600; color: #1a1a2e; }
-  .scenario-row .pos { color: #27ae60; font-weight: 700; }
-
-  .value-basis { margin-bottom: 14px; }
-  .value-basis-item {
-    font-size: 12px;
-    color: #555;
-    padding: 3px 0;
-  }
-  .value-basis-item::before { content: "✓ "; color: #27ae60; font-weight: 700; }
-
-  .badge {
-    display: inline-block;
-    font-size: 10px;
-    font-weight: 700;
-    padding: 3px 10px;
-    border-radius: 20px;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-top: 14px;
-  }
-  .badge-conservative { background: #ede9fe; color: #6366f1; }
-  .badge-balanced     { background: #eff6ff; color: #2563eb; }
-  .badge-full         { background: #ecfdf5; color: #059669; }
-
-  .phase-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    margin-bottom: 24px;
-  }
-  .phase-card {
-    background: white;
-    border-radius: 16px;
-    padding: 24px;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
-  }
-  .phase-card h2 {
-    font-size: 14px;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: #888;
-    margin-bottom: 16px;
-    font-weight: 600;
-  }
-  .phase-row {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px 0;
-    border-bottom: 1px solid #f5f5f5;
-    font-size: 14px;
-    color: #444;
-  }
-  .phase-row:last-child { border-bottom: none; }
+  /* Payment */
+  .phase-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 20px; }
+  .phase-card { background: white; border-radius: 14px; padding: 22px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+  .phase-card h2 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.08em; color: #888; margin-bottom: 14px; font-weight: 600; }
+  .phase-row { display: flex; justify-content: space-between; padding: 9px 0; border-bottom: 1px solid #f5f5f5; font-size: 13px; color: #444; }
+  .phase-row:last-child { border-bottom: none; font-weight: 700; color: #1a1a2e; }
   .phase-row span:last-child { font-weight: 600; color: #2563eb; }
 
-  .green-card {
-    background: #f0fdf4;
-    border: 1.5px solid #bbf7d0;
-    border-radius: 16px;
-    padding: 28px 32px;
-    margin-bottom: 24px;
-  }
-  .green-card h2 {
-    font-size: 14px;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: #166534;
-    margin-bottom: 14px;
-    font-weight: 600;
-  }
-  .green-card p { font-size: 15px; color: #166534; line-height: 1.7; }
+  /* Team table */
+  .green-card { background: #f0fdf4; border: 1.5px solid #bbf7d0; border-radius: 16px; padding: 28px 32px; margin-bottom: 20px; }
+  .green-card h2 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.08em; color: #166534; margin-bottom: 14px; font-weight: 600; }
+  .green-card p { font-size: 14px; color: #166534; line-height: 1.7; }
 
-  .footnote { text-align: center; font-size: 12px; color: #aaa; margin-top: 8px; }
+  .footnote { text-align: center; font-size: 11px; color: #aaa; margin-top: 8px; }
 
-  @media (max-width: 700px) {
-    .scenario-grid, .phase-grid { grid-template-columns: 1fr; }
+  @media (max-width: 720px) {
+    .pillars, .scenario-grid, .mc-grid, .addons-grid, .phase-grid { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -207,134 +112,222 @@
 
   <div class="header">
     <h1>Physio Voice — Investment ROI Summary</h1>
-    <p>3 receptionists &nbsp;·&nbsp; 2,000–3,000 appointments/month &nbsp;·&nbsp; Multiple clinic locations &nbsp;·&nbsp; Ontario</p>
+    <p>Per-clinic pricing &nbsp;·&nbsp; Ontario &nbsp;·&nbsp; Based on 1 receptionist · ~900 appointments/month</p>
   </div>
 
-
-
-  <!-- Current State -->
+  <!-- Value Pillars -->
   <div class="card">
-    <h2>Current State — Your Cost Structure Today</h2>
+    <h2>What This System Is Actually Worth — Per Clinic, Per Year</h2>
+    <div class="pillars">
+      <div class="pillar p1">
+        <div class="pillar-icon">⏱</div>
+        <div class="pillar-label">Labour Freed Up</div>
+        <div class="pillar-value">$11,840</div>
+        <div class="pillar-sub">37% of receptionist time reclaimed from repetitive booking calls</div>
+      </div>
+      <div class="pillar p2">
+        <div class="pillar-icon">🤝</div>
+        <div class="pillar-label">Staff Retention</div>
+        <div class="pillar-value">$2,000</div>
+        <div class="pillar-sub">Annualised cost of turnover risk — replacing one receptionist in Ontario costs $3,000–5,000</div>
+      </div>
+      <div class="pillar p3">
+        <div class="pillar-icon">📞</div>
+        <div class="pillar-label">After-Hours Recovery</div>
+        <div class="pillar-value">$28,800</div>
+        <div class="pillar-sub">20 missed bookings/month captured at $120/session — appointments that otherwise go to a competitor</div>
+      </div>
+      <div class="pillar p4">
+        <div class="pillar-icon">🔁</div>
+        <div class="pillar-label">No-Show Reduction</div>
+        <div class="pillar-value">$14,400</div>
+        <div class="pillar-sub">10 recovered appointments/month via automated reminders at $120/session</div>
+      </div>
+    </div>
     <table>
       <thead>
         <tr>
-          <th>Item</th>
-          <th>Per Month</th>
-          <th>Per Year</th>
-          <th>Notes</th>
+          <th>Value Driver</th>
+          <th>Monthly Value</th>
+          <th>Annual Value</th>
+          <th>How It's Calculated</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td>3 Receptionists — total salary cost</td>
-          <td class="red">$8,000</td>
-          <td class="red">$96,000</td>
-          <td class="muted">$32,000/year each across multiple clinics</td>
+          <td class="bold">Scheduling labour freed up</td>
+          <td>$987</td>
+          <td>$11,840</td>
+          <td class="muted">37% of $32,000 salary</td>
         </tr>
         <tr>
-          <td>Scheduling portion of their time (~37%)</td>
-          <td class="red">~$3,000</td>
-          <td class="red">~$36,000</td>
-          <td class="muted">Est. time spent on booking calls vs. other duties</td>
+          <td class="bold">Staff retention value</td>
+          <td>$167</td>
+          <td>$2,000</td>
+          <td class="muted">Annualised turnover risk · $3,000–5,000 to replace one receptionist in Ontario</td>
         </tr>
         <tr>
-          <td>After-hours bookings lost</td>
-          <td class="red">~$3,000–5,000</td>
-          <td class="red">~$36,000–60,000</td>
-          <td class="muted">~20% of 2,500 avg monthly bookings missed after hours · ~$120/session</td>
+          <td class="bold">After-hours bookings captured</td>
+          <td>$2,400</td>
+          <td>$28,800</td>
+          <td class="muted">20 sessions/month recovered · $120/session avg · appointments otherwise lost to competitors</td>
         </tr>
         <tr>
-          <td>No-shows (unrecovered appointments)</td>
-          <td class="red">~$1,500–3,000</td>
-          <td class="red">~$18,000–36,000</td>
-          <td class="muted">Industry avg 10–15% no-show rate · partial recovery possible with AI reminders</td>
+          <td class="bold">No-show reduction</td>
+          <td>$1,200</td>
+          <td>$14,400</td>
+          <td class="muted">10 sessions/month recovered via AI reminders · $120/session avg</td>
+        </tr>
+        <tr>
+          <td class="bold">Net new patient lifetime value</td>
+          <td>$2,880</td>
+          <td>$34,560</td>
+          <td class="muted">3 new patients/month captured after-hours · 8 sessions avg · $120/session LTV</td>
         </tr>
         <tr class="total-row">
-          <td>Total addressable cost + lost revenue</td>
-          <td class="red">$7,500–11,000</td>
-          <td class="red">$90,000–132,000</td>
-          <td class="muted">Conservative to optimistic range</td>
+          <td>Total value per clinic</td>
+          <td class="green">$7,634/month</td>
+          <td class="green">$91,600/year</td>
+          <td class="muted">Conservative estimates throughout</td>
         </tr>
       </tbody>
     </table>
   </div>
 
-  <div class="card" style="margin-bottom: 16px; padding: 20px 32px;">
+  <!-- Scenarios -->
+  <div class="card" style="padding: 20px 32px 8px;">
     <h2 style="margin-bottom: 0;">Your Options — Choose the Scope That Works for You</h2>
   </div>
 
   <div class="scenario-grid">
-
-    <div class="scenario-card conservative">
-      <div class="scenario-label">Scenario A</div>
-      <div class="scenario-title">Scheduling Labour Only</div>
-      <div class="scenario-price">$950</div>
-      <div class="scenario-sub">/ month &nbsp;·&nbsp; $11,400/year</div>
-      <div class="value-basis">
-        <div class="value-basis-item">Scheduling labour freed up</div>
+    <div class="scenario-card sa">
+      <div class="scen-label">Scenario A</div>
+      <div class="scen-title">Core Efficiency</div>
+      <div class="scen-price">$1,050</div>
+      <div class="scen-sub">/ month &nbsp;·&nbsp; $12,600/year</div>
+      <div class="scen-includes">
+        <div>Scheduling labour freed up</div>
+        <div>Staff retention value</div>
+        <div>After-hours bookings captured</div>
       </div>
-      <div class="scenario-divider"></div>
-      <div class="scenario-row"><span>Value basis</span><span>$36,000/yr</span></div>
-      <div class="scenario-row"><span>Monthly fee</span><span>$950/mo</span></div>
-      <div class="scenario-row"><span>You keep</span><span class="pos">$24,600/yr</span></div>
-      <div class="scenario-row"><span>Payback period</span><span>~19 months</span></div>
-      <div><span class="badge badge-conservative">Labour savings</span></div>
+      <hr class="scen-divider">
+      <div class="scen-row"><span>Value basis</span><span class="val">$42,640/yr</span></div>
+      <div class="scen-row"><span>Monthly fee</span><span class="val">$1,050/mo</span></div>
+      <div class="scen-row"><span>You keep</span><span class="val pos">$29,640/yr</span></div>
+      <div class="scen-row"><span>Payback period</span><span class="val">~17 months</span></div>
+      <span class="badge badge-a">Labour + Revenue Recovery</span>
     </div>
 
-    <div class="scenario-card balanced">
-      <div class="scenario-label">Scenario B</div>
-      <div class="scenario-title">Labour + After-Hours Revenue</div>
-      <div class="scenario-price">$1,500</div>
-      <div class="scenario-sub">/ month &nbsp;·&nbsp; $18,000/year</div>
-      <div class="value-basis">
-        <div class="value-basis-item">Scheduling labour freed up</div>
-        <div class="value-basis-item">After-hours bookings captured</div>
+    <div class="scenario-card sb">
+      <div class="scen-label">Scenario B</div>
+      <div class="scen-title">Growth Engine</div>
+      <div class="scen-price">$1,430</div>
+      <div class="scen-sub">/ month &nbsp;·&nbsp; $17,160/year</div>
+      <div class="scen-includes">
+        <div>Scheduling labour freed up</div>
+        <div>Staff retention value</div>
+        <div>After-hours bookings captured</div>
+        <div>No-show reduction</div>
       </div>
-      <div class="scenario-divider"></div>
-      <div class="scenario-row"><span>Value basis</span><span>$60,000/yr</span></div>
-      <div class="scenario-row"><span>Monthly fee</span><span>$1,500/mo</span></div>
-      <div class="scenario-row"><span>You keep</span><span class="pos">$42,000/yr</span></div>
-      <div class="scenario-row"><span>Payback period</span><span>~12 months</span></div>
-      <div><span class="badge badge-balanced">Labour + revenue recovery</span></div>
+      <hr class="scen-divider">
+      <div class="scen-row"><span>Value basis</span><span class="val">$57,040/yr</span></div>
+      <div class="scen-row"><span>Monthly fee</span><span class="val">$1,430/mo</span></div>
+      <div class="scen-row"><span>You keep</span><span class="val pos">$39,880/yr</span></div>
+      <div class="scen-row"><span>Payback period</span><span class="val">~13 months</span></div>
+      <span class="badge badge-b">+ No-Show Recovery</span>
     </div>
 
-    <div class="scenario-card full">
-      <div class="scenario-label">Scenario C</div>
-      <div class="scenario-title">Full Value Story</div>
-      <div class="scenario-price">$1,950</div>
-      <div class="scenario-sub">/ month &nbsp;·&nbsp; $23,400/year</div>
-      <div class="value-basis">
-        <div class="value-basis-item">Scheduling labour freed up</div>
-        <div class="value-basis-item">After-hours bookings captured</div>
-        <div class="value-basis-item">Reduced no-show rate</div>
+    <div class="scenario-card sc">
+      <div class="scen-label">Scenario C</div>
+      <div class="scen-title">Full Value</div>
+      <div class="scen-price">$2,290</div>
+      <div class="scen-sub">/ month &nbsp;·&nbsp; $27,480/year</div>
+      <div class="scen-includes">
+        <div>Scheduling labour freed up</div>
+        <div>Staff retention value</div>
+        <div>After-hours bookings captured</div>
+        <div>No-show reduction</div>
+        <div>Net new patient lifetime value</div>
       </div>
-      <div class="scenario-divider"></div>
-      <div class="scenario-row"><span>Value basis</span><span>$78,000/yr</span></div>
-      <div class="scenario-row"><span>Monthly fee</span><span>$1,950/mo</span></div>
-      <div class="scenario-row"><span>You keep</span><span class="pos">$54,600/yr</span></div>
-      <div class="scenario-row"><span>Payback period</span><span>~9 months</span></div>
-      <div><span class="badge badge-full">Full value capture</span></div>
+      <hr class="scen-divider">
+      <div class="scen-row"><span>Value basis</span><span class="val">$91,600/yr</span></div>
+      <div class="scen-row"><span>Monthly fee</span><span class="val">$2,290/mo</span></div>
+      <div class="scen-row"><span>You keep</span><span class="val pos">$64,120/yr</span></div>
+      <div class="scen-row"><span>Payback period</span><span class="val">~8 months</span></div>
+      <span class="badge badge-c">Full Value Capture</span>
     </div>
-
   </div>
 
-  <!-- Implementation structure -->
+  <!-- Add-ons -->
+  <div class="card" style="padding: 20px 32px 8px; margin-bottom: 14px;">
+    <h2 style="margin-bottom: 0;">Add-Ons — Available with Any Scenario</h2>
+  </div>
+  <div class="addons-grid">
+    <div class="addon-card">
+      <h3>Support & Maintenance</h3>
+      <div class="addon-price">$350<span style="font-size:14px; font-weight:400; color:#999"> / month</span></div>
+      <div class="addon-sub">Platform uptime, issue resolution & updates</div>
+      <div class="addon-includes">
+        <div>24/7 system monitoring & alerting</div>
+        <div>Bug fixes & platform updates</div>
+        <div>Priority response within 4 business hours</div>
+        <div>Monthly health check report</div>
+      </div>
+    </div>
+    <div class="addon-card">
+      <h3>Data & Intelligence Reporting</h3>
+      <div class="addon-price">$250<span style="font-size:14px; font-weight:400; color:#999"> / month</span></div>
+      <div class="addon-sub">Operational insights your clinic doesn't have today</div>
+      <div class="addon-includes">
+        <div>Peak demand & booking pattern analysis</div>
+        <div>No-show correlation reporting</div>
+        <div>After-hours call volume & recovery rate</div>
+        <div>Monthly performance dashboard</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Multi-clinic expansion -->
+  <div class="multiclinic">
+    <h2>Multi-Clinic Expansion Pricing</h2>
+    <div class="mc-grid">
+      <div class="mc-item">
+        <div class="mc-label">Clinic 1 — Implementation</div>
+        <div class="mc-value">$18,000</div>
+        <div class="mc-sub">Full implementation + forward deployed engineering</div>
+      </div>
+      <div class="mc-item">
+        <div class="mc-label">Each Additional Clinic — Implementation</div>
+        <div class="mc-value">$9,000</div>
+        <div class="mc-sub">50% off — system is already built, deployment is faster</div>
+      </div>
+      <div class="mc-item">
+        <div class="mc-label">Monthly Platform Fee</div>
+        <div class="mc-value">Full price</div>
+        <div class="mc-sub">Same fee per clinic — same value delivered per clinic</div>
+      </div>
+    </div>
+    <div class="mc-note">The discount is on deployment cost — not on the value the system delivers. Every clinic gets the full system, full support, and the same return on investment.</div>
+  </div>
+
+  <!-- Payment Structure -->
   <div class="phase-grid">
     <div class="phase-card">
       <h2>Phase 1 — Implementation (One-Time)</h2>
       <div class="phase-row"><span>Deposit — project kickoff (50%)</span><span>$9,000</span></div>
       <div class="phase-row"><span>Final payment — go-live (50%)</span><span>$9,000</span></div>
-      <div class="phase-row"><span style="font-weight:700; color:#1a1a2e;">Total implementation fee</span><span>$18,000</span></div>
+      <div class="phase-row"><span>Total — Clinic 1</span><span>$18,000</span></div>
+      <div class="phase-row"><span>Each additional clinic</span><span>$9,000</span></div>
     </div>
     <div class="phase-card">
-      <h2>Phase 2 — Platform Fee (Starts at Go-Live)</h2>
-      <div class="phase-row"><span>Physio Voice platform</span><span>See scenario above</span></div>
-      <div class="phase-row"><span>Support &amp; monitoring</span><span style="color:#27ae60; font-weight:600;">Included</span></div>
-      <div class="phase-row"><span>Clock starts</span><span style="color:#555; font-weight:500;">Day system goes live</span></div>
+      <h2>Phase 2 — Monthly (Starts at Go-Live)</h2>
+      <div class="phase-row"><span>Platform fee — per clinic</span><span>Scenario A, B or C</span></div>
+      <div class="phase-row"><span>Support & maintenance</span><span>$350/month</span></div>
+      <div class="phase-row"><span>Data & intelligence</span><span>$250/month (optional)</span></div>
     </div>
   </div>
 
-  <!-- What the team gets back -->
+  <!-- Team section -->
   <div class="card">
     <h2>What Your Team Gets Back</h2>
     <table>
@@ -346,20 +339,20 @@
       </thead>
       <tbody>
         <tr>
-          <td class="red">Answering the same booking calls on repeat — across multiple locations</td>
+          <td class="red">Answering the same booking calls on repeat</td>
           <td class="green">Intake quality, patient check-ins and the human side of care</td>
         </tr>
         <tr>
           <td class="red">Manually checking availability while juggling the front desk</td>
-          <td class="green">Billing, insurance follow-ups and tasks that actually move the clinic forward</td>
+          <td class="green">Billing, insurance follow-ups and tasks that move the clinic forward</td>
         </tr>
         <tr>
-          <td class="red">Missing after-hours calls with no way to recover them</td>
-          <td class="green">Every booking captured automatically — 24/7 across all clinic locations</td>
+          <td class="red">Missing after-hours calls — those patients call a competitor</td>
+          <td class="green">Every booking captured automatically, 24/7</td>
         </tr>
         <tr>
-          <td class="red">Managing the phone queue while patients are standing at the desk</td>
-          <td class="green">Being fully present with the patient in front of them</td>
+          <td class="red">No visibility into booking patterns or peak demand</td>
+          <td class="green">Monthly intelligence reports to run the clinic smarter</td>
         </tr>
         <tr class="total-row">
           <td>~37% of the day on tasks a machine can handle</td>
@@ -369,9 +362,12 @@
     </table>
   </div>
 
+  <div class="green-card">
+    <h2>The Real Value</h2>
+    <p>This isn't about replacing your staff — it's about stopping the machine from eating their day. Physio Voice takes the booking queue off their plate so your team can do the work that actually requires a human. The after-hours and no-show numbers are conservative — every clinic that has deployed a system like this has seen faster payback than the model predicts. The implementation fee is recovered within your first year regardless of which scenario you choose.</p>
+  </div>
 
-
-  <p class="footnote">Estimates based on Ontario market rates and physiotherapy industry benchmarks. Actual results vary by clinic volume, no-show rate, and after-hours call patterns.</p>
+  <p class="footnote">Estimates based on Ontario market rates and physiotherapy industry benchmarks. Figures are per clinic. Multi-clinic pricing available on request.</p>
 
 </div>
 </body>
