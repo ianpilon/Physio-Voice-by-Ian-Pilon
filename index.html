@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Physio Voice — ROI Summary</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: #f4f6f9;
+    padding: 40px 24px;
+    color: #1a1a2e;
+  }
+  .container { max-width: 900px; margin: 0 auto; }
+
+  .header { text-align: center; margin-bottom: 36px; }
+  .header h1 { font-size: 28px; font-weight: 700; color: #1a1a2e; margin-bottom: 8px; }
+  .header p { font-size: 15px; color: #666; }
+
+  .card {
+    background: white;
+    border-radius: 16px;
+    padding: 28px 32px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+  .card h2 {
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #888;
+    margin-bottom: 20px;
+    font-weight: 600;
+  }
+
+  table { width: 100%; border-collapse: collapse; font-size: 15px; }
+  th {
+    text-align: left;
+    padding: 10px 14px;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #999;
+    border-bottom: 2px solid #f0f0f0;
+  }
+  td {
+    padding: 13px 14px;
+    border-bottom: 1px solid #f5f5f5;
+    color: #333;
+    vertical-align: top;
+  }
+  tr:last-child td { border-bottom: none; }
+  .red   { color: #e84545; font-weight: 600; }
+  .green { color: #27ae60; font-weight: 600; }
+  .blue  { color: #2563eb; font-weight: 600; }
+  .muted { color: #999; font-size: 13px; }
+  .total-row td {
+    background: #f9f9f9;
+    font-weight: 700;
+    font-size: 15px;
+    border-top: 2px solid #e8e8e8;
+    border-bottom: none;
+  }
+
+  .notice {
+    background: #fffbeb;
+    border: 1.5px solid #fcd34d;
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-bottom: 24px;
+    font-size: 14px;
+    color: #92400e;
+    line-height: 1.6;
+  }
+  .notice strong { color: #78350f; }
+
+  .scenario-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+
+  .scenario-card {
+    background: white;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    border-top: 4px solid #e5e7eb;
+  }
+  .scenario-card.conservative { border-top-color: #6366f1; }
+  .scenario-card.balanced     { border-top-color: #2563eb; }
+  .scenario-card.full         { border-top-color: #059669; }
+
+  .scenario-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .conservative .scenario-label { color: #6366f1; }
+  .balanced .scenario-label     { color: #2563eb; }
+  .full .scenario-label         { color: #059669; }
+
+  .scenario-title { font-size: 17px; font-weight: 700; color: #1a1a2e; margin-bottom: 16px; }
+
+  .scenario-price { font-size: 36px; font-weight: 800; line-height: 1; margin-bottom: 2px; }
+  .conservative .scenario-price { color: #6366f1; }
+  .balanced .scenario-price     { color: #2563eb; }
+  .full .scenario-price         { color: #059669; }
+
+  .scenario-sub { font-size: 12px; color: #999; margin-bottom: 16px; }
+
+  .scenario-divider { border: none; border-top: 1px solid #f0f0f0; margin: 14px 0; }
+
+  .scenario-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    margin-bottom: 8px;
+    color: #555;
+  }
+  .scenario-row span:last-child { font-weight: 600; color: #1a1a2e; }
+  .scenario-row .pos { color: #27ae60; font-weight: 700; }
+
+  .value-basis { margin-bottom: 14px; }
+  .value-basis-item {
+    font-size: 12px;
+    color: #555;
+    padding: 3px 0;
+  }
+  .value-basis-item::before { content: "✓ "; color: #27ae60; font-weight: 700; }
+
+  .badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-top: 14px;
+  }
+  .badge-conservative { background: #ede9fe; color: #6366f1; }
+  .badge-balanced     { background: #eff6ff; color: #2563eb; }
+  .badge-full         { background: #ecfdf5; color: #059669; }
+
+  .phase-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .phase-card {
+    background: white;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+  .phase-card h2 {
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #888;
+    margin-bottom: 16px;
+    font-weight: 600;
+  }
+  .phase-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #f5f5f5;
+    font-size: 14px;
+    color: #444;
+  }
+  .phase-row:last-child { border-bottom: none; }
+  .phase-row span:last-child { font-weight: 600; color: #2563eb; }
+
+  .green-card {
+    background: #f0fdf4;
+    border: 1.5px solid #bbf7d0;
+    border-radius: 16px;
+    padding: 28px 32px;
+    margin-bottom: 24px;
+  }
+  .green-card h2 {
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #166534;
+    margin-bottom: 14px;
+    font-weight: 600;
+  }
+  .green-card p { font-size: 15px; color: #166534; line-height: 1.7; }
+
+  .footnote { text-align: center; font-size: 12px; color: #aaa; margin-top: 8px; }
+
+  @media (max-width: 700px) {
+    .scenario-grid, .phase-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <h1>Physio Voice — Investment ROI Summary</h1>
+    <p>3 receptionists &nbsp;·&nbsp; 2,000–3,000 appointments/month &nbsp;·&nbsp; Multiple clinic locations &nbsp;·&nbsp; Ontario</p>
+  </div>
+
+
+
+  <!-- Current State -->
+  <div class="card">
+    <h2>Current State — Your Cost Structure Today</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th>Per Month</th>
+          <th>Per Year</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>3 Receptionists — total salary cost</td>
+          <td class="red">$8,000</td>
+          <td class="red">$96,000</td>
+          <td class="muted">$32,000/year each across multiple clinics</td>
+        </tr>
+        <tr>
+          <td>Scheduling portion of their time (~37%)</td>
+          <td class="red">~$3,000</td>
+          <td class="red">~$36,000</td>
+          <td class="muted">Est. time spent on booking calls vs. other duties</td>
+        </tr>
+        <tr>
+          <td>After-hours bookings lost</td>
+          <td class="red">~$3,000–5,000</td>
+          <td class="red">~$36,000–60,000</td>
+          <td class="muted">~20% of 2,500 avg monthly bookings missed after hours · ~$120/session</td>
+        </tr>
+        <tr>
+          <td>No-shows (unrecovered appointments)</td>
+          <td class="red">~$1,500–3,000</td>
+          <td class="red">~$18,000–36,000</td>
+          <td class="muted">Industry avg 10–15% no-show rate · partial recovery possible with AI reminders</td>
+        </tr>
+        <tr class="total-row">
+          <td>Total addressable cost + lost revenue</td>
+          <td class="red">$7,500–11,000</td>
+          <td class="red">$90,000–132,000</td>
+          <td class="muted">Conservative to optimistic range</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card" style="margin-bottom: 16px; padding: 20px 32px;">
+    <h2 style="margin-bottom: 0;">Your Options — Choose the Scope That Works for You</h2>
+  </div>
+
+  <div class="scenario-grid">
+
+    <div class="scenario-card conservative">
+      <div class="scenario-label">Scenario A</div>
+      <div class="scenario-title">Scheduling Labour Only</div>
+      <div class="scenario-price">$950</div>
+      <div class="scenario-sub">/ month &nbsp;·&nbsp; $11,400/year</div>
+      <div class="value-basis">
+        <div class="value-basis-item">Scheduling labour freed up</div>
+      </div>
+      <div class="scenario-divider"></div>
+      <div class="scenario-row"><span>Value basis</span><span>$36,000/yr</span></div>
+      <div class="scenario-row"><span>Monthly fee</span><span>$950/mo</span></div>
+      <div class="scenario-row"><span>You keep</span><span class="pos">$24,600/yr</span></div>
+      <div class="scenario-row"><span>Payback period</span><span>~19 months</span></div>
+      <div><span class="badge badge-conservative">Labour savings</span></div>
+    </div>
+
+    <div class="scenario-card balanced">
+      <div class="scenario-label">Scenario B</div>
+      <div class="scenario-title">Labour + After-Hours Revenue</div>
+      <div class="scenario-price">$1,500</div>
+      <div class="scenario-sub">/ month &nbsp;·&nbsp; $18,000/year</div>
+      <div class="value-basis">
+        <div class="value-basis-item">Scheduling labour freed up</div>
+        <div class="value-basis-item">After-hours bookings captured</div>
+      </div>
+      <div class="scenario-divider"></div>
+      <div class="scenario-row"><span>Value basis</span><span>$60,000/yr</span></div>
+      <div class="scenario-row"><span>Monthly fee</span><span>$1,500/mo</span></div>
+      <div class="scenario-row"><span>You keep</span><span class="pos">$42,000/yr</span></div>
+      <div class="scenario-row"><span>Payback period</span><span>~12 months</span></div>
+      <div><span class="badge badge-balanced">Labour + revenue recovery</span></div>
+    </div>
+
+    <div class="scenario-card full">
+      <div class="scenario-label">Scenario C</div>
+      <div class="scenario-title">Full Value Story</div>
+      <div class="scenario-price">$1,950</div>
+      <div class="scenario-sub">/ month &nbsp;·&nbsp; $23,400/year</div>
+      <div class="value-basis">
+        <div class="value-basis-item">Scheduling labour freed up</div>
+        <div class="value-basis-item">After-hours bookings captured</div>
+        <div class="value-basis-item">Reduced no-show rate</div>
+      </div>
+      <div class="scenario-divider"></div>
+      <div class="scenario-row"><span>Value basis</span><span>$78,000/yr</span></div>
+      <div class="scenario-row"><span>Monthly fee</span><span>$1,950/mo</span></div>
+      <div class="scenario-row"><span>You keep</span><span class="pos">$54,600/yr</span></div>
+      <div class="scenario-row"><span>Payback period</span><span>~9 months</span></div>
+      <div><span class="badge badge-full">Full value capture</span></div>
+    </div>
+
+  </div>
+
+  <!-- Implementation structure -->
+  <div class="phase-grid">
+    <div class="phase-card">
+      <h2>Phase 1 — Implementation (One-Time)</h2>
+      <div class="phase-row"><span>Deposit — project kickoff (50%)</span><span>$9,000</span></div>
+      <div class="phase-row"><span>Final payment — go-live (50%)</span><span>$9,000</span></div>
+      <div class="phase-row"><span style="font-weight:700; color:#1a1a2e;">Total implementation fee</span><span>$18,000</span></div>
+    </div>
+    <div class="phase-card">
+      <h2>Phase 2 — Platform Fee (Starts at Go-Live)</h2>
+      <div class="phase-row"><span>Physio Voice platform</span><span>See scenario above</span></div>
+      <div class="phase-row"><span>Support &amp; monitoring</span><span style="color:#27ae60; font-weight:600;">Included</span></div>
+      <div class="phase-row"><span>Clock starts</span><span style="color:#555; font-weight:500;">Day system goes live</span></div>
+    </div>
+  </div>
+
+  <!-- What the team gets back -->
+  <div class="card">
+    <h2>What Your Team Gets Back</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Right Now Your Team Spends Their Day On...</th>
+          <th>With Physio Voice They Spend It On...</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="red">Answering the same booking calls on repeat — across multiple locations</td>
+          <td class="green">Intake quality, patient check-ins and the human side of care</td>
+        </tr>
+        <tr>
+          <td class="red">Manually checking availability while juggling the front desk</td>
+          <td class="green">Billing, insurance follow-ups and tasks that actually move the clinic forward</td>
+        </tr>
+        <tr>
+          <td class="red">Missing after-hours calls with no way to recover them</td>
+          <td class="green">Every booking captured automatically — 24/7 across all clinic locations</td>
+        </tr>
+        <tr>
+          <td class="red">Managing the phone queue while patients are standing at the desk</td>
+          <td class="green">Being fully present with the patient in front of them</td>
+        </tr>
+        <tr class="total-row">
+          <td>~37% of the day on tasks a machine can handle</td>
+          <td class="green">More capacity for the work only a person can do</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+
+  <p class="footnote">Estimates based on Ontario market rates and physiotherapy industry benchmarks. Actual results vary by clinic volume, no-show rate, and after-hours call patterns.</p>
+
+</div>
+</body>
+</html>
