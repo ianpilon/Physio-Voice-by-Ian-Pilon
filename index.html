@@ -3,395 +3,282 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Physio Voice — Investment ROI Summary</title>
+<title>Physio Voice — Investment Proposal</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { font-family: 'Segoe UI', system-ui, sans-serif; background: #f4f6f9; padding: 40px 24px; color: #1a1a2e; }
   .container { max-width: 960px; margin: 0 auto; }
-
-  .header { text-align: center; margin-bottom: 36px; }
-  .header h1 { font-size: 28px; font-weight: 700; color: #1a1a2e; margin-bottom: 8px; }
-  .header p { font-size: 15px; color: #666; }
-
+  .header { text-align: center; margin-bottom: 28px; }
+  .header h1 { font-size: 28px; font-weight: 800; color: #1a1a2e; margin-bottom: 8px; }
+  .header p { font-size: 14px; color: #888; }
   .card { background: white; border-radius: 16px; padding: 28px 32px; margin-bottom: 20px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
-  .card h2 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.08em; color: #888; margin-bottom: 18px; font-weight: 600; }
-
+  .card h2 { font-size: 11px; text-transform: uppercase; letter-spacing: 0.09em; color: #aaa; margin-bottom: 16px; font-weight: 700; }
   table { width: 100%; border-collapse: collapse; font-size: 14px; }
-  th { text-align: left; padding: 9px 12px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: #999; border-bottom: 2px solid #f0f0f0; }
-  td { padding: 12px 12px; border-bottom: 1px solid #f5f5f5; color: #333; vertical-align: top; }
+  th { text-align: left; padding: 9px 12px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: #aaa; border-bottom: 2px solid #f0f0f0; }
+  td { padding: 11px 12px; border-bottom: 1px solid #f5f5f5; color: #444; vertical-align: top; line-height: 1.5; }
   tr:last-child td { border-bottom: none; }
-  .total-row td { background: #f9f9f9; font-weight: 700; border-top: 2px solid #e8e8e8; border-bottom: none; }
-
+  .total-row td { background: #f9f9f9; font-weight: 700; color: #1a1a2e; border-top: 2px solid #e8e8e8; border-bottom: none; }
   .red   { color: #e84545; font-weight: 600; }
   .green { color: #27ae60; font-weight: 600; }
   .blue  { color: #2563eb; font-weight: 600; }
-  .muted { color: #999; font-size: 12px; }
-  .bold  { font-weight: 600; color: #1a1a2e; }
-
-  /* Value pillars */
-  .pillars { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 20px; }
-  .pillar { background: white; border-radius: 14px; padding: 20px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); border-top: 3px solid #e5e7eb; }
-  .pillar.p1 { border-top-color: #6366f1; }
-  .pillar.p2 { border-top-color: #f59e0b; }
-  .pillar.p3 { border-top-color: #2563eb; }
-  .pillar.p4 { border-top-color: #059669; }
-  .pillar-icon { font-size: 20px; margin-bottom: 8px; }
-  .pillar-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.07em; color: #999; font-weight: 600; margin-bottom: 6px; }
-  .pillar-value { font-size: 22px; font-weight: 800; color: #1a1a2e; line-height: 1; margin-bottom: 4px; }
-  .pillar-sub { font-size: 11px; color: #888; line-height: 1.4; }
-
-  /* Scenarios */
-  .scenario-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 20px; }
-  .scenario-card { background: white; border-radius: 14px; padding: 22px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); border-top: 4px solid #e5e7eb; }
-  .scenario-card.sa { border-top-color: #6366f1; }
-  .scenario-card.sb { border-top-color: #2563eb; }
-  .scenario-card.sc { border-top-color: #059669; }
-  .scen-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 700; margin-bottom: 3px; }
-  .sa .scen-label { color: #6366f1; }
-  .sb .scen-label { color: #2563eb; }
-  .sc .scen-label { color: #059669; }
-  .scen-title { font-size: 15px; font-weight: 700; color: #1a1a2e; margin-bottom: 12px; }
-  .scen-price { font-size: 32px; font-weight: 800; line-height: 1; margin-bottom: 2px; }
-  .sa .scen-price { color: #6366f1; }
-  .sb .scen-price { color: #2563eb; }
-  .sc .scen-price { color: #059669; }
-  .scen-sub { font-size: 11px; color: #999; margin-bottom: 12px; }
-  .scen-includes { margin-bottom: 12px; }
-  .scen-includes div { font-size: 11px; color: #555; padding: 2px 0; }
-  .scen-includes div::before { content: "✓ "; color: #27ae60; font-weight: 700; }
-  .scen-divider { border: none; border-top: 1px solid #f0f0f0; margin: 10px 0; }
-  .scen-row { display: flex; justify-content: space-between; font-size: 12px; color: #666; margin-bottom: 6px; }
-  .scen-row .val { font-weight: 700; color: #1a1a2e; }
-  .scen-row .val.pos { color: #27ae60; }
-  .badge { display: inline-block; font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 20px; margin-top: 10px; text-transform: uppercase; letter-spacing: 0.04em; }
-  .badge-a { background: #ede9fe; color: #6366f1; }
-  .badge-b { background: #eff6ff; color: #2563eb; }
-  .badge-c { background: #ecfdf5; color: #059669; }
-
-  /* Add-ons */
+  .muted { color: #aaa; font-size: 12px; }
+  .bold  { font-weight: 700; color: #1a1a2e; }
+  .download-bar { text-align: center; margin-bottom: 24px; }
+  .download-btn { display: inline-block; background: #1a1a2e; color: white; text-decoration: none;
+    font-size: 14px; font-weight: 600; padding: 13px 28px; border-radius: 10px; letter-spacing: 0.02em; }
+  .download-btn:hover { background: #2563eb; }
+  .intro-banner { background: #eff6ff; border: 1.5px solid #bfdbfe; border-radius: 14px;
+    padding: 20px 24px; margin-bottom: 20px; font-size: 14px; color: #1e40af; line-height: 1.7; }
+  .badge { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 10px;
+    border-radius: 20px; text-transform: uppercase; letter-spacing: 0.04em; white-space: nowrap; }
+  .badge-current { background: #eff6ff; color: #2563eb; }
+  .badge-post    { background: #fffbeb; color: #d97706; }
+  .phase-current td { background: #f8faff; }
+  .pricing-card { background: white; border-radius: 16px; box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    margin-bottom: 12px; border-top: 4px solid #2563eb; overflow: hidden; }
+  .pricing-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; }
+  .pricing-cell { padding: 28px 24px; text-align: center; border-right: 1px solid #f0f0f0; }
+  .pricing-cell:last-child { border-right: none; }
+  .pricing-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: #aaa; font-weight: 700; margin-bottom: 8px; }
+  .pricing-value { font-size: 36px; font-weight: 800; line-height: 1; margin-bottom: 6px; }
+  .pricing-value.blue  { color: #2563eb; }
+  .pricing-value.green { color: #27ae60; }
+  .pricing-value.ink   { color: #1a1a2e; font-size: 28px; }
+  .pricing-sub { font-size: 12px; color: #aaa; }
+  .includes-card { background: white; border-radius: 16px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); margin-bottom: 20px; overflow: hidden; }
+  .includes-card table th { background: #f9f9f9; }
   .addons-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 20px; }
   .addon-card { background: white; border-radius: 14px; padding: 22px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
   .addon-card h3 { font-size: 13px; font-weight: 700; color: #1a1a2e; margin-bottom: 4px; }
   .addon-price { font-size: 22px; font-weight: 800; color: #2563eb; margin: 8px 0 4px; }
-  .addon-sub { font-size: 11px; color: #999; margin-bottom: 10px; }
+  .addon-sub { font-size: 11px; color: #aaa; margin-bottom: 10px; }
   .addon-includes div { font-size: 12px; color: #555; padding: 2px 0; }
   .addon-includes div::before { content: "✓ "; color: #27ae60; font-weight: 700; }
-
-  /* Multi-clinic */
-  .multiclinic { background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 16px; padding: 28px 32px; margin-bottom: 20px; color: white; }
-  .multiclinic h2 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.08em; color: rgba(255,255,255,0.4); margin-bottom: 16px; font-weight: 600; }
-  .mc-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
-  .mc-item { text-align: center; }
-  .mc-label { font-size: 11px; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
-  .mc-value { font-size: 24px; font-weight: 800; color: #4ade80; line-height: 1; margin-bottom: 4px; }
-  .mc-sub { font-size: 11px; color: rgba(255,255,255,0.3); }
-  .mc-note { margin-top: 18px; font-size: 12px; color: rgba(255,255,255,0.4); border-top: 1px solid rgba(255,255,255,0.1); padding-top: 14px; }
-
-  /* Payment */
+  .terms-card { background: transparent; border: 1.5px solid #e2e8f0; border-radius: 16px; padding: 28px 32px; margin-bottom: 20px; }
+  .terms-card h2 { font-size: 11px; text-transform: uppercase; letter-spacing: 0.09em; color: #aaa; margin-bottom: 16px; font-weight: 700; }
+  .terms-card table { color: #444; }
+  .terms-card th { color: #aaa; border-bottom-color: #f0f0f0; }
+  .terms-card td { border-bottom-color: #f5f5f5; }
+  .terms-card .bold { color: #1a1a2e; }
+  .multiclinic { background: linear-gradient(135deg, #0f172a, #1e3a5f); border-radius: 16px; padding: 28px 32px; margin-bottom: 20px; }
+  .multiclinic h2 { font-size: 11px; text-transform: uppercase; letter-spacing: 0.09em; color: rgba(255,255,255,0.3); margin-bottom: 16px; font-weight: 700; }
+  .multiclinic table { color: rgba(255,255,255,0.8); }
+  .multiclinic th { color: rgba(255,255,255,0.3); border-bottom-color: rgba(255,255,255,0.1); }
+  .multiclinic td { border-bottom-color: rgba(255,255,255,0.06); }
+  .multiclinic .total-row td { background: rgba(255,255,255,0.07); color: white; border-top-color: rgba(255,255,255,0.15); }
+  .multiclinic .green { color: #4ade80; }
+  .multiclinic .blue  { color: #93c5fd; }
+  .multiclinic .muted { color: rgba(255,255,255,0.3); }
   .phase-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 20px; }
   .phase-card { background: white; border-radius: 14px; padding: 22px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
-  .phase-card h2 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.08em; color: #888; margin-bottom: 14px; font-weight: 600; }
+  .phase-card h2 { font-size: 11px; text-transform: uppercase; letter-spacing: 0.09em; color: #aaa; margin-bottom: 14px; font-weight: 700; }
   .phase-row { display: flex; justify-content: space-between; padding: 9px 0; border-bottom: 1px solid #f5f5f5; font-size: 13px; color: #444; }
   .phase-row:last-child { border-bottom: none; font-weight: 700; color: #1a1a2e; }
   .phase-row span:last-child { font-weight: 600; color: #2563eb; }
-
-  /* Team table */
-  .green-card { background: #f0fdf4; border: 1.5px solid #bbf7d0; border-radius: 16px; padding: 28px 32px; margin-bottom: 20px; }
-  .green-card h2 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.08em; color: #166534; margin-bottom: 14px; font-weight: 600; }
-  .green-card p { font-size: 14px; color: #166534; line-height: 1.7; }
-
-  .footnote { text-align: center; font-size: 11px; color: #aaa; margin-top: 8px; }
-
-  @media (max-width: 720px) {
-    .pillars, .scenario-grid, .mc-grid, .addons-grid, .phase-grid { grid-template-columns: 1fr; }
-  }
-
-  .download-bar {
-    text-align: center;
-    margin-bottom: 28px;
-  }
-  .download-btn {
-    display: inline-block;
-    background: #1a1a2e;
-    color: white;
-    text-decoration: none;
-    font-size: 14px;
-    font-weight: 600;
-    padding: 13px 28px;
-    border-radius: 10px;
-    letter-spacing: 0.02em;
-    transition: background 0.2s;
-  }
-  .download-btn:hover {
-    background: #2563eb;
-  }
+  .footnote { text-align: center; font-size: 11px; color: #bbb; margin-top: 8px; line-height: 1.7; }
+  @media (max-width: 700px) { .pricing-grid, .addons-grid, .phase-grid { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
 <div class="container">
 
-<div class="download-bar">
-  <a class="download-btn" href="physio_voice_quote_client.pdf" download="Physio_Voice_ROI_Quote.pdf">
-    ⬇ Download PDF Quote
-  </a>
-</div>
+  <div class="download-bar">
+    <a class="download-btn" href="physio_voice_quote_client.pdf" download="Physio_Voice_Proposal.pdf">⬇ Download PDF Proposal</a>
+  </div>
 
   <div class="header">
-    <h1>Physio Voice — Investment ROI Summary</h1>
+    <h1>Physio Voice — Investment Proposal</h1>
     <p>Per-clinic pricing &nbsp;·&nbsp; Ontario &nbsp;·&nbsp; ~1,000 appointments/month per clinic &nbsp;·&nbsp; 2,000–3,000 total across all clinics</p>
   </div>
 
-  <!-- Value Pillars -->
+  <div class="intro-banner">
+    Physio Voice is the first step in a phased automation of your clinic operations. The MVP focuses on the highest-impact, lowest-risk starting point — scheduling, after-hours coverage, and no-show reduction. Each phase that follows builds on a live, proven foundation rather than committing to a system that hasn't been tested in your environment. Billing, insurance, and intake automation are on the roadmap — scoped properly after we know your systems.
+  </div>
+
   <div class="card">
-    <h2>Where the Value Comes From — Per Clinic, Per Year</h2>
-    <div class="pillars">
-      <div class="pillar p1">
-        <div class="pillar-icon">⏱</div>
-        <div class="pillar-label">Labour Freed Up</div>
-        <div class="pillar-value">$11,840</div>
-        <div class="pillar-sub">37% of receptionist time reclaimed from repetitive booking calls</div>
-      </div>
-      <div class="pillar p2">
-        <div class="pillar-icon">🤝</div>
-        <div class="pillar-label">Staff Retention</div>
-        <div class="pillar-value">$2,000</div>
-        <div class="pillar-sub">Annualised cost of turnover risk — replacing one receptionist in Ontario costs $3,000–5,000</div>
-      </div>
-      <div class="pillar p3">
-        <div class="pillar-icon">📞</div>
-        <div class="pillar-label">After-Hours Recovery</div>
-        <div class="pillar-value">$28,800</div>
-        <div class="pillar-sub">20 missed bookings/month captured at $120/session — appointments that otherwise go to a competitor</div>
-      </div>
-      <div class="pillar p4">
-        <div class="pillar-icon">🔁</div>
-        <div class="pillar-label">No-Show Reduction</div>
-        <div class="pillar-value">$14,400</div>
-        <div class="pillar-sub">10 recovered appointments/month via automated reminders at $120/session</div>
-      </div>
-    </div>
+    <h2>Automation Roadmap</h2>
     <table>
-      <thead>
-        <tr>
-          <th>Value Driver</th>
-          <th>Monthly Value</th>
-          <th>Annual Value</th>
-          <th>How It's Calculated</th>
-        </tr>
-      </thead>
+      <thead><tr><th>Phase</th><th>Scope</th><th>Status</th><th>Outcome</th></tr></thead>
       <tbody>
-        <tr>
-          <td class="bold">Scheduling labour freed up</td>
-          <td>$987</td>
-          <td>$11,840</td>
-          <td class="muted">37% of $32,000 salary</td>
+        <tr class="phase-current">
+          <td class="bold">Phase 1 — MVP</td>
+          <td>AI voice scheduling · after-hours coverage · no-show reminders · Cal.com integration</td>
+          <td><span class="badge badge-current">This Proposal</span></td>
+          <td class="muted">Booking queue fully automated · 24/7 coverage · measurable revenue recovery</td>
         </tr>
         <tr>
-          <td class="bold">Staff retention value</td>
-          <td>$167</td>
-          <td>$2,000</td>
-          <td class="muted">Annualised turnover risk · $3,000–5,000 to replace one receptionist in Ontario</td>
+          <td class="bold">Phase 2</td>
+          <td>Patient intake form automation · check-in workflow</td>
+          <td><span class="badge badge-post">Post-MVP</span></td>
+          <td class="muted">Scoped after Phase 1 go-live once intake system is mapped</td>
         </tr>
         <tr>
-          <td class="bold">After-hours bookings captured</td>
-          <td>$2,400</td>
-          <td>$28,800</td>
-          <td class="muted">20 sessions/month recovered · $120/session avg · appointments otherwise lost to competitors</td>
+          <td class="bold">Phase 3</td>
+          <td>Billing &amp; insurance processing automation</td>
+          <td><span class="badge badge-post">Post-MVP</span></td>
+          <td class="muted">Complex compliance requirements — dedicated discovery session required</td>
         </tr>
         <tr>
-          <td class="bold">No-show reduction</td>
-          <td>$1,200</td>
-          <td>$14,400</td>
-          <td class="muted">10 sessions/month recovered via AI reminders · $120/session avg</td>
-        </tr>
-        <tr>
-          <td class="bold">Net new patient lifetime value</td>
-          <td>$2,880</td>
-          <td>$34,560</td>
-          <td class="muted">3 new patients/month captured after-hours · 8 sessions avg · $120/session LTV</td>
-        </tr>
-        <tr class="total-row">
-          <td>Total value per clinic</td>
-          <td class="green">$7,634/month</td>
-          <td class="green">$91,600/year</td>
-          <td class="muted"></td>
+          <td class="bold">Phase 4</td>
+          <td>Full front-desk automation across all clinic locations</td>
+          <td><span class="badge badge-post">Post-MVP</span></td>
+          <td class="muted">Built on learnings from Phases 1–3 · receptionist capacity fully redirected</td>
         </tr>
       </tbody>
     </table>
   </div>
 
-  <!-- Scenarios -->
-  <div class="card" style="padding: 20px 32px 8px;">
-    <h2 style="margin-bottom: 0;">Your Options — Choose the Scope That Works for You</h2>
+  <div class="card">
+    <h2>Phase 1 Value — Per Clinic, Per Year</h2>
+    <table>
+      <thead><tr><th>Value Driver</th><th>Monthly</th><th>Annual</th><th>How It's Calculated</th></tr></thead>
+      <tbody>
+        <tr><td class="bold">Scheduling labour freed up</td><td>$987</td><td>$11,840</td><td class="muted">37% of $32,000 receptionist salary</td></tr>
+        <tr><td class="bold">After-hours bookings captured</td><td>$2,400</td><td>$28,800</td><td class="muted">20 sessions/month recovered · $120/session · appointments otherwise lost to competitors</td></tr>
+        <tr><td class="bold">No-show reduction</td><td>$1,200</td><td>$14,400</td><td class="muted">10 sessions/month recovered via automated reminders · $120/session avg</td></tr>
+        <tr><td class="bold">Net new patient lifetime value</td><td>$2,880</td><td>$34,560</td><td class="muted">3 new patients/month captured after-hours · 8 sessions avg LTV · $120/session</td></tr>
+        <tr class="total-row"><td>Total value — Phase 1 MVP</td><td class="green">$7,467/month</td><td class="green">$89,600/year</td><td></td></tr>
+      </tbody>
+    </table>
   </div>
 
-  <div class="scenario-grid">
-    <div class="scenario-card sa">
-      <div class="scen-label">Scenario A</div>
-      <div class="scen-title">Core Efficiency</div>
-      <div class="scen-price">$1,050</div>
-      <div class="scen-sub">/ month &nbsp;·&nbsp; $12,600/year</div>
-      <div class="scen-includes">
-        <div>Scheduling labour freed up</div>
-        <div>Staff retention value</div>
-        <div>After-hours bookings captured</div>
+  <div class="card" style="padding:20px 32px 8px;margin-bottom:12px;"><h2 style="margin-bottom:0;">Your Investment</h2></div>
+  <div class="pricing-card">
+    <div class="pricing-grid">
+      <div class="pricing-cell">
+        <div class="pricing-label">Monthly Platform Fee</div>
+        <div class="pricing-value blue">$2,290</div>
+        <div class="pricing-sub">per clinic / month · $27,480/year</div>
       </div>
-      <hr class="scen-divider">
-      <div class="scen-row"><span>Monthly fee</span><span class="val">$1,050/mo</span></div>
-      <div class="scen-row"><span>You keep</span><span class="val pos">$29,640/yr</span></div>
-      <div class="scen-row"><span>Payback period</span><span class="val">~17 months</span></div>
-      <span class="badge badge-a">Labour + Revenue Recovery</span>
-    </div>
-
-    <div class="scenario-card sb">
-      <div class="scen-label">Scenario B</div>
-      <div class="scen-title">Growth Engine</div>
-      <div class="scen-price">$1,430</div>
-      <div class="scen-sub">/ month &nbsp;·&nbsp; $17,160/year</div>
-      <div class="scen-includes">
-        <div>Scheduling labour freed up</div>
-        <div>Staff retention value</div>
-        <div>After-hours bookings captured</div>
-        <div>No-show reduction</div>
+      <div class="pricing-cell">
+        <div class="pricing-label">You Keep</div>
+        <div class="pricing-value green">$62,120</div>
+        <div class="pricing-sub">per clinic / year after platform fee</div>
       </div>
-      <hr class="scen-divider">
-      <div class="scen-row"><span>Monthly fee</span><span class="val">$1,430/mo</span></div>
-      <div class="scen-row"><span>You keep</span><span class="val pos">$39,880/yr</span></div>
-      <div class="scen-row"><span>Payback period</span><span class="val">~13 months</span></div>
-      <span class="badge badge-b">+ No-Show Recovery</span>
-    </div>
-
-    <div class="scenario-card sc">
-      <div class="scen-label">Scenario C</div>
-      <div class="scen-title">Full Value</div>
-      <div class="scen-price">$2,290</div>
-      <div class="scen-sub">/ month &nbsp;·&nbsp; $27,480/year</div>
-      <div class="scen-includes">
-        <div>Scheduling labour freed up</div>
-        <div>Staff retention value</div>
-        <div>After-hours bookings captured</div>
-        <div>No-show reduction</div>
-        <div>Net new patient lifetime value</div>
+      <div class="pricing-cell">
+        <div class="pricing-label">Payback Period</div>
+        <div class="pricing-value ink">~8 months</div>
+        <div class="pricing-sub">on implementation investment</div>
       </div>
-      <hr class="scen-divider">
-      <div class="scen-row"><span>Monthly fee</span><span class="val">$2,290/mo</span></div>
-      <div class="scen-row"><span>You keep</span><span class="val pos">$64,120/yr</span></div>
-      <div class="scen-row"><span>Payback period</span><span class="val">~8 months</span></div>
-      <span class="badge badge-c">Full Value Capture</span>
     </div>
   </div>
-
-  <!-- Add-ons -->
-  <div class="card" style="padding: 20px 32px 8px; margin-bottom: 14px;">
-    <h2 style="margin-bottom: 0;">Add-Ons — Available with Any Scenario</h2>
+  <div class="includes-card">
+    <table>
+      <thead><tr><th>What's included in the monthly platform fee</th></tr></thead>
+      <tbody>
+        <tr><td>✓ &nbsp;24/7 AI voice scheduling — inbound &amp; after-hours</td></tr>
+        <tr><td>✓ &nbsp;Cal.com calendar integration across all clinic locations</td></tr>
+        <tr><td>✓ &nbsp;Automated appointment reminders to reduce no-shows</td></tr>
+        <tr><td>✓ &nbsp;Live call handoff to staff when human judgment is needed</td></tr>
+        <tr><td>✓ &nbsp;Continuous system improvement — the platform learns and adapts as your clinics grow</td></tr>
+      </tbody>
+    </table>
   </div>
+
+  <div class="card" style="padding:20px 32px 8px;margin-bottom:14px;"><h2 style="margin-bottom:0;">Add-Ons — Available at Any Time</h2></div>
   <div class="addons-grid">
     <div class="addon-card">
-      <h3>Support & Maintenance</h3>
-      <div class="addon-price">$350<span style="font-size:14px; font-weight:400; color:#999"> / month</span></div>
-      <div class="addon-sub">Platform uptime, issue resolution & updates</div>
+      <h3>Support &amp; Maintenance</h3>
+      <div class="addon-price">$350<span style="font-size:14px;font-weight:400;color:#aaa"> / month</span></div>
+      <div class="addon-sub">Platform uptime, issue resolution &amp; updates</div>
       <div class="addon-includes">
-        <div>24/7 system monitoring & alerting</div>
-        <div>Bug fixes & platform updates</div>
+        <div>24/7 system monitoring &amp; alerting</div>
+        <div>Bug fixes &amp; platform updates</div>
         <div>Priority response within 4 business hours</div>
         <div>Monthly health check report</div>
       </div>
     </div>
     <div class="addon-card">
-      <h3>Data & Intelligence Reporting</h3>
-      <div class="addon-price">$250<span style="font-size:14px; font-weight:400; color:#999"> / month</span></div>
+      <h3>Data &amp; Intelligence Reporting</h3>
+      <div class="addon-price">$250<span style="font-size:14px;font-weight:400;color:#aaa"> / month</span></div>
       <div class="addon-sub">Monthly performance reporting</div>
       <div class="addon-includes">
-        <div>Peak demand & booking pattern analysis</div>
+        <div>Peak demand &amp; booking pattern analysis</div>
         <div>No-show correlation reporting</div>
-        <div>After-hours call volume & recovery rate</div>
+        <div>After-hours call volume &amp; recovery rate</div>
         <div>Monthly performance dashboard</div>
       </div>
     </div>
   </div>
 
-  <!-- Multi-clinic expansion -->
-  <div class="multiclinic">
-    <h2>Multi-Clinic Expansion Pricing</h2>
-    <div class="mc-grid">
-      <div class="mc-item">
-        <div class="mc-label">Clinic 1 — Implementation</div>
-        <div class="mc-value">$18,000</div>
-        <div class="mc-sub">Full implementation + forward deployed engineering</div>
-      </div>
-      <div class="mc-item">
-        <div class="mc-label">Each Additional Clinic — Implementation</div>
-        <div class="mc-value">$9,000</div>
-        <div class="mc-sub">50% off — system is already built, deployment is faster</div>
-      </div>
-      <div class="mc-item">
-        <div class="mc-label">Monthly Platform Fee</div>
-        <div class="mc-value">Full price</div>
-        <div class="mc-sub">Same fee per clinic — same value delivered per clinic</div>
-      </div>
-    </div>
-    
+  <div class="terms-card">
+    <h2>Engagement Terms</h2>
+    <table>
+      <thead><tr><th>Term</th><th>Detail</th></tr></thead>
+      <tbody>
+        <tr><td class="bold">Minimum commitment</td><td>12-month initial term from go-live date. Rolls to month-to-month after the initial term.</td></tr>
+        <tr><td class="bold">Platform licensing</td><td>The Physio Voice platform is licensed to the client — not sold. The system continues to run as long as the platform fee is active.</td></tr>
+        <tr><td class="bold">Early termination</td><td>Exit before the 12-month term is complete is subject to the remaining balance of the annual platform fee.</td></tr>
+        <tr><td class="bold">One-time build (no platform)</td><td>Available on request. Priced separately to reflect full value transfer. Contact us to discuss.</td></tr>
+      </tbody>
+    </table>
   </div>
 
-  <!-- Payment Structure -->
+  <div class="multiclinic">
+    <h2>Multi-Clinic Expansion</h2>
+    <table>
+      <thead><tr><th>Item</th><th>Implementation Fee</th><th>Monthly Platform Fee</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="bold" style="color:white">Clinic 1</td>
+          <td class="blue">$18,000</td>
+          <td style="color:rgba(255,255,255,0.8)">$2,290/month</td>
+          <td class="muted">Full implementation + forward deployed engineering</td>
+        </tr>
+        <tr>
+          <td class="bold" style="color:white">Each additional clinic</td>
+          <td class="green">$9,000</td>
+          <td style="color:rgba(255,255,255,0.8)">$2,290/month</td>
+          <td class="muted">System already built — faster deployment per location</td>
+        </tr>
+        <tr class="total-row">
+          <td>Example: 3 clinics</td>
+          <td class="blue">$36,000 total</td>
+          <td class="green">$6,870/month</td>
+          <td class="muted">Clinic 1: $18k + Clinics 2 &amp; 3: $9k each · full platform fee per clinic</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
   <div class="phase-grid">
     <div class="phase-card">
       <h2>Phase 1 — Implementation (One-Time)</h2>
       <div class="phase-row"><span>Deposit — project kickoff (50%)</span><span>$9,000</span></div>
       <div class="phase-row"><span>Final payment — go-live (50%)</span><span>$9,000</span></div>
       <div class="phase-row"><span>Total — Clinic 1</span><span>$18,000</span></div>
-      <div class="phase-row"><span>Each additional clinic</span><span>$9,000</span></div>
+      <div class="phase-row"><span>Each additional clinic</span><span style="color:#27ae60">$9,000</span></div>
     </div>
     <div class="phase-card">
       <h2>Phase 2 — Monthly (Starts at Go-Live)</h2>
-      <div class="phase-row"><span>Platform fee — per clinic</span><span>Scenario A, B or C</span></div>
-      <div class="phase-row"><span>Support & maintenance</span><span>$350/month</span></div>
-      <div class="phase-row"><span>Data & intelligence</span><span>$250/month (optional)</span></div>
+      <div class="phase-row"><span>Platform fee — per clinic</span><span>$2,290/month</span></div>
+      <div class="phase-row"><span>Support &amp; maintenance</span><span>$350/month</span></div>
+      <div class="phase-row"><span>Data &amp; intelligence</span><span>$250/month (optional)</span></div>
     </div>
   </div>
 
-  <!-- Team section -->
   <div class="card">
-    <h2>What Your Team Gets Back</h2>
+    <h2>What Your Team Gets Back — Phase 1</h2>
     <table>
-      <thead>
-        <tr>
-          <th>Right Now Your Team Spends Their Day On...</th>
-          <th>With Physio Voice They Spend It On...</th>
-        </tr>
-      </thead>
+      <thead><tr><th>Right Now Your Team Spends Their Day On...</th><th>With Physio Voice They Spend It On...</th></tr></thead>
       <tbody>
-        <tr>
-          <td class="red">Answering the same booking calls on repeat</td>
-          <td class="green">Intake quality, patient check-ins and the human side of care</td>
-        </tr>
-        <tr>
-          <td class="red">Manually checking availability while juggling the front desk</td>
-          <td class="green">Billing, insurance follow-ups and tasks that move the clinic forward</td>
-        </tr>
-        <tr>
-          <td class="red">Missing after-hours calls — those patients call a competitor</td>
-          <td class="green">Every booking captured automatically, 24/7</td>
-        </tr>
-        <tr>
-          <td class="red">No visibility into booking patterns or peak demand</td>
-          <td class="green">Monthly intelligence reports to run the clinic smarter</td>
-        </tr>
-        <tr class="total-row">
-          <td>~37% of the day on tasks a machine can handle</td>
-          <td class="green">More capacity for the work only a person can do</td>
-        </tr>
+        <tr><td class="red">Answering the same booking calls on repeat</td><td class="green">Intake quality, patient check-ins and the human side of care</td></tr>
+        <tr><td class="red">Manually checking availability while juggling the front desk</td><td class="green">Billing, insurance follow-ups and work that moves the clinic forward</td></tr>
+        <tr><td class="red">Missing after-hours calls — those patients call a competitor</td><td class="green">Every booking captured automatically, 24/7</td></tr>
+        <tr><td class="red">No visibility into booking patterns or peak demand</td><td class="green">Monthly intelligence reports to run the clinic smarter</td></tr>
+        <tr class="total-row"><td>~37% of the day on tasks a machine can handle</td><td class="green">More capacity for the work only a person can do — for now</td></tr>
       </tbody>
     </table>
   </div>
 
-  <div class="download-bar">
-  <a class="download-btn" href="physio_voice_quote_client.pdf" download="Physio_Voice_ROI_Quote.pdf">
-    ⬇ Download PDF Quote
-  </a>
-</div>
+  <div class="download-bar" style="margin-top:24px;">
+    <a class="download-btn" href="physio_voice_quote_client.pdf" download="Physio_Voice_Proposal.pdf">⬇ Download PDF Proposal</a>
+  </div>
 
-  <p class="footnote">Estimates based on Ontario market rates and physiotherapy industry benchmarks. Figures are per clinic. Multi-clinic pricing available on request.</p>
+  <p class="footnote">
+    Estimates based on Ontario market rates and physiotherapy industry benchmarks. Figures are per clinic. Multi-clinic pricing available on request.<br>
+    * Telephony usage (inbound call costs via Twilio) is billed at cost monthly — typically $40–60 CAD/month per clinic based on call volume. Passed through at cost with no markup.
+  </p>
 
 </div>
 </body>
